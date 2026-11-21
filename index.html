@@ -70,7 +70,93 @@ function makeStory(){
 }
 async function copyResult(){if(!latest){alert('Creează mai întâi povestea.');return}try{await navigator.clipboard.writeText(latest);alert('Text copiat.')}catch(e){alert('Selectează și copiază textul din rezultat.');}}
 function downloadResult(){if(!latest){alert('Creează mai întâi povestea.');return}const blob=new Blob([latest],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sorin-studio-scenariu.txt';a.click();URL.revokeObjectURL(a.href);}
-</script>JavaScript
+<
+>JavaJavaScript
+
+// GENERATOR VIDEO SORIN STUDIO
+const videoButton = document.createElement('button');
+videoButton.className = 'primary';
+videoButton.textContent = 'GENEREAZĂ PROMPT VIDEO';
+document.getElementById('result').after(videoButton);
+
+const videoArea = document.createElement('div');
+videoArea.style.whiteSpace = 'pre-wrap';
+videoArea.style.marginTop = '15px';
+videoButton.after(videoArea);
+
+videoButton.onclick = function () {
+  if (!latest) {
+    alert('Creează mai întâi povestea!');
+    return;
+  }
+
+  const scenes = latest.split(/(?=SCENA \d+ –)/)
+    .filter(s => /^SCENA \d+ –/.test(s));
+
+  videoArea.innerHTML = '';
+
+  scenes.forEach((scene, i) => {
+    const prompt =
+      'VIDEO CINEMATOGRAFIC REALIST\n' +
+      'Personaj: Sorin, polițist român.\n' +
+      'Păstrează aceeași față, voce și uniformă în toate scenele.\n' +
+      'Locație: București.\n' +
+      'Dialog în limba română.\n' +
+      'Cadre dinamice și sunet ambiental.\n\n' + scene;
+
+    const title = document.createElement('h3');
+    title.textContent = 'PROMPT VIDEO - SCENA ' + (i + 1);
+    videoArea.appendChild(title);
+
+    const area = document.createElement('textarea');
+    area.value = prompt;
+    area.rows = 8;
+    videoArea.appendChild(area);
+
+    const copy = document.createElement('button');
+    copy.className = 'secondary';
+    copy.textContent = 'Copiază promptul';
+    copy.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(prompt);
+        alert('Prompt copiat!');
+      } catch (e) {
+        area.select();
+        alert('Selectează și copiază textul.');
+      }
+    };
+    videoArea.appendChild(copy);
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Script
 
 // SORIN STUDIO - GENERATOR PROMPT VIDEO
 const videoButton = document.createElement('button');
