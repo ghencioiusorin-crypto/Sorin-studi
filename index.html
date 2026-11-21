@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Sorin Studio</title>
+<style>
+:root{--bg:#0b1220;--panel:#131f32;--panel2:#1b2a40;--text:#f4f7fb;--muted:#aebbd0;--gold:#f3b84b;--line:#2b3b53}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(150deg,#101b2d,#080d17 70%);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:26px 18px 20px;text-align:center;background:linear-gradient(120deg,#172944,#101827);border-bottom:1px solid var(--line)}
+.logo{font-size:12px;letter-spacing:4px;color:var(--gold);font-weight:800}.title{font-size:clamp(30px,7vw,48px);font-weight:900;margin:8px 0 3px}.sub{color:var(--muted);margin:0}
+main{max-width:850px;margin:22px auto;padding:0 14px 40px}.card{background:rgba(19,31,50,.96);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 10px 30px #0003}
+h2{font-size:20px;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:14px;color:var(--muted);margin:0 0 6px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;background:#0d1727;color:var(--text);padding:12px;font:inherit}textarea{min-height:90px;resize:vertical}
+button{border:0;border-radius:12px;padding:13px 16px;font:700 15px system-ui;cursor:pointer}
+.primary{background:var(--gold);color:#17130a;width:100%;margin-top:14px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1}
+#result{white-space:pre-wrap;line-height:1.6;background:#0b1422;border:1px solid var(--line);border-radius:12px;padding:15px;min-height:110px;color:#e8eef8}
+.note{font-size:13px;color:var(--muted);line-height:1.5}.tag{display:inline-block;color:var(--gold);font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:8px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:8px 16px 26px}
+</style>
+</head>
+<body>
+<header><div class="logo">ATELIER CREATIV</div><div class="title">SORIN STUDIO</div><p class="sub">Povești • Scenarii • Scene video • Narațiune</p></header>
+<main>
+<section class="card">
+ <div class="tag">01 / PROIECT NOU</div><h2>Creează povestea ta</h2>
+ <div class="grid">
+  <div><label for="genre">Genul poveștii</label><select id="genre"><option>Acțiune și aventură</option><option>Mister</option><option>Drama</option><option>Fantastic</option><option>Poveste pentru copii</option><option>Polițist și crimă</option></select></div>
+  <div><label for="duration">Durata dorită</label><select id="duration"><option>5 minute</option><option>15 minute</option><option>30 minute</option><option>60 minute</option></select></div>
+  <div><label for="hero">Personaj principal</label><input id="hero" value="Sorin"></div>
+  <div><label for="place">Locul acțiunii</label><input id="place" value="București"></div>
+ </div>
+ <label for="idea" style="margin-top:12px">Despre ce să fie povestea?</label><textarea id="idea">Un polițist român luptă împotriva unei rețele de criminali.</textarea>
+ <button class="primary" onclick="makeStory()">Creează povestea și scenele</button>
+</section>
+<section class="card">
+ <div class="tag">02 / REZULTAT</div><h2>Povestea ta</h2>
+ <div id="result">Povestea creată va apărea aici. Completează detaliile și apasă „Creează povestea și scenele”.</div>
+ <div class="actions"><button class="secondary" onclick="copyResult()">Copiază textul</button><button class="secondary" onclick="downloadResult()">Descarcă TXT</button></div>
+ <p class="note">Sorin Studio creează aici un scenariu de bază și scene pe care le poți modifica. Pentru generarea efectivă a videoclipurilor este nevoie de un serviciu video separat.</p>
+</section>
+<section class="card">
+ <div class="tag">03 / CONTINUITATE</div><h2>Fișă pentru personaje</h2>
+ <p class="note">Păstrează aceeași descriere a personajului când creezi fiecare scenă într-un generator video.</p>
+ <div id="character">Personaj: Sorin. Polițist român, hotărât, îmbrăcat într-o ținută realistă de poliție. Păstrează aceeași înfățișare, voce și îmbrăcăminte în toate scenele.</div>
+</section>
+</main>
+<footer>SORIN STUDIO · Versiune simplă pentru telefon</footer>
+<script>
+let latest='';
+function makeStory(){
+ const genre=document.getElementById('genre').value, duration=document.getElementById('duration').value;
+ const hero=document.getElementById('hero').value.trim()||'Eroul', place=document.getElementById('place').value.trim()||'oraș';
+ const idea=document.getElementById('idea').value.trim()||'O aventură neașteptată';
+ const beats=[
+  ['SCENA 1 – ÎNCEPUTUL','În '+place+', '+hero+' descoperă primele indicii despre situația descrisă: '+idea],
+  ['SCENA 2 – PRIMEJDIA','Un mesaj neașteptat îl avertizează că cineva îi urmărește fiecare pas. Tensiunea crește.'],
+  ['SCENA 3 – INVESTIGAȚIA',''+hero+' urmărește indiciile prin oraș și descoperă o legătură pe care nimeni nu o bănuia.'],
+  ['SCENA 4 – CONFRUNTAREA','Adevărul iese la iveală. '+hero+' trebuie să ia o decizie dificilă, fără să pună oameni nevinovați în pericol.'],
+  ['SCENA 5 – DEZNODĂMÂNTUL','După o confruntare tensionată, planul este dejucat. Dar ultimul indiciu lasă loc unei noi aventuri.']
+ ];
+ latest='SORIN STUDIO – SCENARIU NOU\nGen: '+genre+'\nDurată: '+duration+'\nPersonaj principal: '+hero+'\nLocul acțiunii: '+place+'\nIdee: '+idea+'\n\n';
+ latest+='PREZENTARE\n'+hero+' pornește într-o misiune în '+place+'. O descoperire neașteptată îl atrage într-o poveste de '+genre.toLowerCase()+'. Va trebui să descopere adevărul și să ducă misiunea până la capăt.\n\n';
+ beats.forEach((b,i)=>{latest+=b[0]+'\n'+b[1]+'\n\nDIALOG:\n'+hero+': „Nu mă opresc până nu aflu adevărul.”\n\n'});
+ latest+='INDICAȚIE VIDEO\nAspect realist, cinematografic, lumină naturală, cadre dinamice, sunet ambiental și dialog în limba română. Păstrează continuitatea personajelor între scene.';
+ document.getElementById('result').textContent=latest;
+ document.getElementById('character').textContent='Personaj: '+hero+'. Personaj principal într-o producție realistă. Păstrează aceeași înfățișare, voce, vârstă aproximativă, coafură și îmbrăcăminte în toate scenele.';
+}
+async function copyResult(){if(!latest){alert('Creează mai întâi povestea.');return}try{await navigator.clipboard.writeText(latest);alert('Text copiat.')}catch(e){alert('Selectează și copiază textul din rezultat.');}}
+function downloadResult(){if(!latest){alert('Creează mai întâi povestea.');return}const blob=new Blob([latest],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sorin-studio-scenariu.txt';a.click();URL.revokeObjectURL(a.href);}
+</script>
+</body></html>
