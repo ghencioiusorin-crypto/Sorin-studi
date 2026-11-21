@@ -70,5 +70,69 @@ function makeStory(){
 }
 async function copyResult(){if(!latest){alert('Creează mai întâi povestea.');return}try{await navigator.clipboard.writeText(latest);alert('Text copiat.')}catch(e){alert('Selectează și copiază textul din rezultat.');}}
 function downloadResult(){if(!latest){alert('Creează mai întâi povestea.');return}const blob=new Blob([latest],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sorin-studio-scenariu.txt';a.click();URL.revokeObjectURL(a.href);}
-</script>
+</script>JavaScript
+
+// SORIN STUDIO - GENERATOR PROMPT VIDEO
+const videoButton = document.createElement('button');
+videoButton.className = 'primary';
+videoButton.textContent = 'Generează prompt video';
+document.getElementById('result').after(videoButton);
+
+const videoArea = document.createElement('div');
+videoArea.className = 'card';
+videoArea.style.display = 'none';
+videoButton.after(videoArea);
+
+videoButton.onclick = function () {
+  if (!latest) {
+    alert('Creează mai întâi povestea.');
+    return;
+  }
+
+  const matches = [...latest.matchAll(/SCENA \d+ – [^\n]+/g)];
+  if (!matches.length) {
+    alert('Nu am găsit scene. Creează povestea din nou.');
+    return;
+  }
+
+  videoArea.style.display = 'block';
+  videoArea.innerHTML = '<h2>Prompturi video pentru Google Flow</h2>';
+
+  matches.forEach((match, i) => {
+    const start = match.index;
+    const end = matches[i + 1]?.index ?? latest.indexOf('INDICAȚIE VIDEO', start);
+    const scene = latest.slice(start, end === -1 ? latest.length : end).trim();
+
+    const prompt =
+      'Film realist, cinematografic, în limba română.\n' +
+      'Personaj principal: Sorin, polițist român. Păstrează aceeași înfățișare, voce și uniformă în toate scenele.\n' +
+      'Locație: București.\n' +
+      'Cadre dinamice, lumină naturală, sunet ambiental.\n' +
+      scene;
+
+    const heading = document.createElement('h3');
+    heading.textContent = 'Scena ' + (i + 1);
+    videoArea.appendChild(heading);
+
+    const output = document.createElement('textarea');
+    output.value = prompt;
+    output.rows = 7;
+    videoArea.appendChild(output);
+
+    const copy = document.createElement('button');
+    copy.className = 'secondary';
+    copy.textContent = 'Copiază promptul scenei ' + (i + 1);
+    copy.onclick = async () => {
+      output.select();
+      try {
+        await navigator.clipboard.writeText(prompt);
+        alert('Prompt copiat!');
+      } catch (e) {
+        alert('Selectează textul și copiază-l.');
+      }
+    };
+    videoArea.appendChild(copy);
+  });
+};
+
 </body></html>
